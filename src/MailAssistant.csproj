@@ -1,0 +1,544 @@
+﻿<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ED36593D-0374-467E-A122-D1C08D030E9B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <RootNamespace>Jpp.AddIn.MailAssistant</RootNamespace>
+    <AssemblyName>Jpp.AddIn.MailAssistant</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <DefineConstants>VSTO40</DefineConstants>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>..\publish\</PublishUrl>
+    <InstallUrl>\\JPP-MK-JOM\Apps\Mail-Assistant\</InstallUrl>
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.19</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>1</UpdateInterval>
+    <UpdateIntervalUnits>hours</UpdateIntervalUnits>
+    <ProductName>Mail Assistant</ProductName>
+    <PublisherName>JPP Consulting Ltd</PublisherName>
+    <SupportUrl />
+    <FriendlyName>Mail Assistant</FriendlyName>
+    <OfficeApplicationDescription>Custom Outlook Add-In for managing shared emails</OfficeApplicationDescription>
+    <LoadBehavior>3</LoadBehavior>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <!--
+      OfficeApplication
+        Add-in host application
+    -->
+    <OfficeApplication>Outlook</OfficeApplication>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Backend, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jpp.Common.Backend.0.1.21\lib\netstandard2.0\Backend.dll</HintPath>
+    </Reference>
+    <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jpp.Common.0.2.16\lib\netstandard2.0\Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityModel, Version=3.10.10.0, Culture=neutral, PublicKeyToken=e7877f4675df049f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.3.10.10\lib\net452\IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.2.5.0\lib\net45\Microsoft.AppCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Analytics, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Analytics.2.5.0\lib\net45\Microsoft.AppCenter.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AppCenter.Crashes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Crashes.2.5.0\lib\net45\Microsoft.AppCenter.Crashes.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView, Version=5.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Toolkit.Forms.UI.Controls.WebView.5.1.1\lib\net462\Microsoft.Toolkit.Forms.UI.Controls.WebView.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SQLite-net, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlite-net-pcl.1.3.1\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.2\lib\net45\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.2\lib\net45\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.2\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.1.0\lib\net463\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.0.0\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Tracing.4.1.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.0.1\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.1.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.1.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.0.1\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.6.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.1.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Expressions.4.1.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.1.0\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.1.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.1.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.1.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.1.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.1.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.2.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.0.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.0.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.1.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.6.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.1.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Outlook, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Outlook.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <Compile Include="Abstracts\IMoveable.cs" />
+    <Compile Include="Abstracts\IOutlookItem.cs" />
+    <Compile Include="Abstracts\IWrappedObject.cs" />
+    <Compile Include="Backend\MessageProvider.cs" />
+    <Compile Include="Backend\OfficeAddInOAuth.cs" />
+    <Compile Include="Backend\StorageProvider.cs" />
+    <Compile Include="AppDeployment.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Exceptions\OutlookItemFactoryException.cs" />
+    <Compile Include="Factories\OutlookItemFactory.cs" />
+    <Compile Include="Factories\OutlookFolderFactory.cs" />
+    <Compile Include="Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProjectListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProjectListForm.Designer.cs">
+      <DependentUpon>ProjectListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MoveReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MoveReportForm.Designer.cs">
+      <DependentUpon>MoveReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutputReports\MoveReport.cs" />
+    <Compile Include="OutputReports\ItemProperities.cs" />
+    <Compile Include="OutlookExplorer.cs" />
+    <Compile Include="OutlookInspector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Wrappers\AddressEntryWrapper.cs" />
+    <Compile Include="Wrappers\FolderWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\AppointmentItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\ContactItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\DistListItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\DocumentItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\JournalItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\MailItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\MeetingItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\NoteItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\PostItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\RemoteItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\ReportItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\SharingItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\StorageItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\TaskItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\TaskRequestAcceptItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\TaskRequestDeclineItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\TaskRequestItemWrapper.cs" />
+    <Compile Include="Wrappers\OutlookItems\TaskRequestUpdateItemWrapper.cs" />
+    <Compile Include="Wrappers\SelectionWrapper.cs" />
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProjectListForm.resx">
+      <DependentUpon>ProjectListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MoveReportForm.resx">
+      <DependentUpon>MoveReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RibbonMailAssistantAddIn.cs" />
+    <Compile Include="ThisAddIn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.cs</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.cs">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ribbons\Explorer.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>87159BD8A98B11EF8477CAF4848C0387449FA77D</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <!-- Include the build rules for a C# project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(VSToolsPath)\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Outlook" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Outlook" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Outlook\InstallRoot\Path#outlook.exe" AddItemTemplatesGuid="{A58A78EB-1C92-4DDD-80CF-E8BD872ABFC4}" />
+        <Host Name="Outlook" GeneratedCodeNamespace="MailAssistant" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="5E0FF6DFCDB137E825F6300C0DDE492AD2896690" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        </Host>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.linux.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets'))" />
+  </Target>
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.2\build\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
+</Project>

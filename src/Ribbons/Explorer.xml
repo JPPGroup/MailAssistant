@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<customUI onLoad="OnLoad_Ribbon" xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+  <ribbon>
+    <tabs>
+      <tab id="Jpp.MailAssistant.Explorer"
+           label="JPP">
+        <group label="Mail Assistant"
+               id="Jpp.MailAssistant.Explorer.Main">
+          <button id="btnMoveToShared"
+                  size="large"
+                  imageMso="MoveToFolder"
+                  label="Move To Shared Folder"
+                  screentip="Move Mail Item To Shared Folder"
+                  supertip="Move Mail Item To Shared Folder"
+                  onAction="OnAction_MoveToShared"
+                  getVisible="GetVisible_MoveToShared"/>
+          <button id="btnNewFolder"
+                  size="large"
+                  imageMso="Folder"
+                  label="New Shared Folder"
+                  screentip="Create new shared folder"
+                  supertip="Create new shared folder"
+                  onAction="OnAction_NewFolder"/>
+          <separator id="separator" />
+          <editBox id="editBoxProject" label="Project : "
+                   onChange="OnChange_Project"
+                   sizeString="XXXXXXXXXXXXXXXXXXXX"/>
+          <button id="btnGoToProject"
+                  imageMso="RightArrow2"
+                  label="Go to project folder"
+                  screentip="Move Mail Item To Shared Folder"
+                  supertip="Move Mail Item To Shared Folder"
+                  onAction="OnAction_GoToProject"/>
+        </group>
+      </tab>
+    </tabs>
+    <contextualTabs>
+      <tabSet idMso="TabSetAttachments">
+        <tab idMso="TabAttachments">
+          <group label="Mail Assistant" id="Jpp.MailAssistant.Attachment">
+            <button id="SendToHub"
+                    size="large"
+                    label="Send Attachment To jHub"
+                    imageMso="AttachItem"
+                    onAction="OnAction_SendToHub"/>
+          </group>
+        </tab>
+      </tabSet>
+    </contextualTabs>
+  </ribbon>
+  <contextMenus>
+    <contextMenu idMso="ContextMenuMailItem">
+      <button id="MoveToSharedContextMenuMailItem"
+              label="Move To Shared Folder"
+              imageMso="MoveToFolder"
+              onAction="OnAction_MoveToShared"
+              getVisible="GetVisible_MoveToShared"/>
+    </contextMenu>
+    <contextMenu idMso="ContextMenuMultipleItems">
+      <button id="MoveToSharedContextMenuMultipleItems"
+              label="Move To Shared Folder"
+              imageMso="MoveToFolder"
+              onAction="OnAction_MoveToShared"
+              getVisible="GetVisible_MoveToShared"/>
+    </contextMenu>
+    <contextMenu idMso="ContextMenuAttachments">
+      <button id="SendToHubContextMenuAttachments"
+              label="Send Attachment To jHub"
+              imageMso="AttachItem"
+              onAction="OnAction_SendToHub"/>
+    </contextMenu>
+  </contextMenus>
+</customUI>
+
+
