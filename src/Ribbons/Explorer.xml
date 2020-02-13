@@ -22,15 +22,13 @@
                   supertip="Create new shared folder"
                   onAction="OnAction_NewFolder"/>
           <separator id="separator" />
-          <editBox id="editBoxProject" label="Project : "
-                   onChange="OnChange_Project"
-                   sizeString="XXXXXXXXXXXXXXXXXXXX"/>
-          <button id="btnGoToProject"
-                  imageMso="RightArrow2"
-                  label="Go to project folder"
-                  screentip="Move Mail Item To Shared Folder"
-                  supertip="Move Mail Item To Shared Folder"
-                  onAction="OnAction_GoToProject"/>
+          <button id="btnGoToFolder"
+                  size="large"
+                  imageMso="FileFind"
+                  label="Go To Shared Folder"
+                  screentip="Navigate To Shared Folder"
+                  supertip="Navigate To Shared Folder"
+                  onAction="OnAction_GoToFolder"/>
         </group>
       </tab>
     </tabs>

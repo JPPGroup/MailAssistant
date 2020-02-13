@@ -9,14 +9,11 @@ namespace Jpp.AddIn.MailAssistant.Factories
 {
     internal static class OutlookFolderFactory
     {
-        public static FolderWrapper GetOrCreateSharedFolder(Outlook.Application outlookApplication, string project = "")
+        public static FolderWrapper GetOrCreateSharedFolder(Outlook.Application outlookApplication)
         {
             if(outlookApplication == null) throw new ArgumentNullException(nameof(outlookApplication));
 
-            using var frm = new ProjectListForm(ThisAddIn.Authentication, ThisAddIn.StorageProvider)
-            {
-                FindProject = project
-            };
+            using var frm = new ProjectListForm(ThisAddIn.Authentication, ThisAddIn.StorageProvider);
             var result = frm.ShowDialog();
 
             return result != DialogResult.OK ? null : GetSharedFolder(outlookApplication, frm.SelectedFolder);

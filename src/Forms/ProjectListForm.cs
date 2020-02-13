@@ -17,8 +17,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
         private IEnumerable<ProjectModel> _projectList;
         private string _searchText;
 
-        public string FindProject { get; set; }
-
         public string SelectedFolder
         {
             get
@@ -42,8 +40,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
             _projectService = new Projects(_authentication, storage);
 
             ThisAddIn.MessageProvider.ErrorOccurred += MessageProvider_OnErrorOccurred;
-
-            
         }
 
         private void MessageProvider_OnErrorOccurred(object sender, EventArgs e)
@@ -62,28 +58,10 @@ namespace Jpp.AddIn.MailAssistant.Forms
             {
                 await LoadProjectList();
                 ActiveControl = txtSearchBox;
-
-                if (!string.IsNullOrEmpty(FindProject))
-                {
-                    DoFindForProject();
-                }
             }
             else
             {
                 MessageBox.Show(@"Not authenticated, please login.", @"Mail Assistant", MessageBoxButtons.OK,MessageBoxIcon.Error);
-                Close();
-            }
-        }
-
-        private void DoFindForProject()
-        {
-            txtSearchBox.Text = FindProject;
-            PopulateGrid(FindProject);
-
-            if (gridProjects.RowCount == 1)
-            {
-                gridProjects.Rows[0].Selected = true;
-                DialogResult = DialogResult.OK;
                 Close();
             }
         }

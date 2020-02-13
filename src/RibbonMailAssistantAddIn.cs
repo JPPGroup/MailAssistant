@@ -17,8 +17,6 @@ namespace Jpp.AddIn.MailAssistant
     [ComVisible(true)]
     public class RibbonMailAssistantAddIn : Office.IRibbonExtensibility
     {
-        private string projectValue = "";
-
         #region IRibbonExtensibility Members
 
         public string GetCustomUI(string ribbonId)
@@ -93,25 +91,30 @@ namespace Jpp.AddIn.MailAssistant
             }
         }
 
-        public void OnChange_Project(Office.IRibbonControl control, string text)
-        {
-            projectValue = text;
-        }
 
-        public void OnAction_GoToProject(Office.IRibbonControl control)
+        public void OnAction_GoToFolder(Office.IRibbonControl control)
         {
-            NavigateToProjectFolder(projectValue);
+
+            try
+            {
+                NavigateToSharedFolder();
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
+            }
         }
 
         #endregion
 
         #region Helpers
 
-        private void NavigateToProjectFolder(string project)
+        private void NavigateToSharedFolder()
         {
             var explorer = Globals.ThisAddIn.Application.ActiveExplorer();
             
-            using (var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application, project))
+            using (var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application))
             {
                 wrappedSharedFolder.NavigateToFolder(explorer);
             }
