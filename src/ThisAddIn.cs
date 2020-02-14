@@ -1,11 +1,9 @@
-﻿using Jpp.AddIn.MailAssistant.Backend;
-using Jpp.Common.Backend;
-using Jpp.Common.Backend.Auth;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
+using Jpp.AddIn.MailAssistant.Projects;
 using Jpp.AddIn.MailAssistant.Wrappers;
 using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
@@ -23,10 +21,7 @@ namespace Jpp.AddIn.MailAssistant
         internal static List<OutlookExplorer> Windows;  // List of tracked explorer windows  
         internal static List<OutlookInspector> InspectorWindows; // List of tracked inspector windows         
         internal static Office.IRibbonUI Ribbon; // Ribbon UI reference
-        internal static BaseOAuthAuthentication Authentication;
-        internal static IStorageProvider StorageProvider;
-        internal static MessageProvider MessageProvider;
-
+        internal static ProjectService ProjectService;
         #endregion
 
         #region VSTO Startup and Shutdown methods
@@ -49,11 +44,9 @@ namespace Jpp.AddIn.MailAssistant
             _inspectors = Application.Inspectors;
             _appCheck = new AppDeploymentCheck();
 
-            MessageProvider = new MessageProvider();
             Windows = new List<OutlookExplorer>();
             InspectorWindows = new List<OutlookInspector>();
-            StorageProvider = new StorageProvider();
-            Authentication = new OfficeAddInOAuth(MessageProvider);
+            ProjectService = new ProjectService();
 
             // Wire up event handlers to handle multiple Explorer windows
             _explorers.NewExplorer += OutlookEvent_Explorers_NewExplorer;
@@ -61,8 +54,6 @@ namespace Jpp.AddIn.MailAssistant
             // Wire up event handlers to handle multiple Inspector windows
             _inspectors.NewInspector += OutlookEvent__Inspectors_NewInspector;
 
-            MessageProvider.ErrorOccurred += MessageProvider_OnErrorOccurred;
-            
             // Add the ActiveExplorer to Windows
             var explorer = Application.ActiveExplorer();
             var window = new OutlookExplorer(explorer);
@@ -186,11 +177,6 @@ namespace Jpp.AddIn.MailAssistant
             var window = (OutlookExplorer)sender;
             window.Close -= WrappedWindow_Close;
             Windows.Remove(window);
-        }
-
-        private static void MessageProvider_OnErrorOccurred(object sender, EventArgs e)
-        {
-            Authentication = new OfficeAddInOAuth(MessageProvider);
         }
 
         #endregion

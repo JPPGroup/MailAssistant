@@ -13,7 +13,7 @@ namespace Jpp.AddIn.MailAssistant.Factories
         {
             if(outlookApplication == null) throw new ArgumentNullException(nameof(outlookApplication));
 
-            using var frm = new ProjectListForm(ThisAddIn.Authentication, ThisAddIn.StorageProvider);
+            using var frm = new ProjectListForm(ThisAddIn.ProjectService);
             var result = frm.ShowDialog();
 
             return result != DialogResult.OK ? null : GetSharedFolder(outlookApplication, frm.SelectedFolder);

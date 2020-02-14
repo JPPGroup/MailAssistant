@@ -1,20 +1,16 @@
-﻿using Jpp.Common;
-using Jpp.Common.Backend;
-using Jpp.Common.Backend.Auth;
-using Jpp.Common.Backend.Projects;
+﻿using Jpp.AddIn.MailAssistant.Projects;
+using Jpp.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Jpp.AddIn.MailAssistant.Forms
 {
     public partial class ProjectListForm : Form
     {
-        private readonly BaseOAuthAuthentication _authentication;
-        private readonly Projects _projectService;
-        private IEnumerable<ProjectModel> _projectList;
+        private readonly ProjectService _projectService;
+        private IEnumerable<Project> _projectList;
         private string _searchText;
 
         public string SelectedFolder
@@ -24,53 +20,49 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 if (gridProjects.SelectedRows.Count != 1) return null;
                 var item = gridProjects.SelectedRows[0];
 
-                var group = item.Cells[nameof(ProjectModel.Grouping)].Value;
-                var code = item.Cells[nameof(ProjectModel.Code)].Value;
-                var name = item.Cells[nameof(ProjectModel.Name)].Value;
+                var group = item.Cells[nameof(Project.Grouping)].Value;
+                var code = item.Cells[nameof(Project.Code)].Value;
+                var name = item.Cells[nameof(Project.Name)].Value;
 
                 return $"Testing\\{group}\\{code}-{name}";
             }
         }
 
-        public ProjectListForm(BaseOAuthAuthentication authentication, IStorageProvider storage)
+        public ProjectListForm(ProjectService service)
         {
             InitializeComponent();
+            _projectService = service;
 
-            _authentication = authentication;
-            _projectService = new Projects(_authentication, storage);
-
-            ThisAddIn.MessageProvider.ErrorOccurred += MessageProvider_OnErrorOccurred;
+            _projectService.ProjectListChanged += _projectService_ProjectListChanged;
         }
 
-        private void MessageProvider_OnErrorOccurred(object sender, EventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            Close();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+                _projectService.ProjectListChanged -= _projectService_ProjectListChanged;
+            }
+
+            base.Dispose(disposing);
         }
 
-        private async void ProjectListForm_Load(object sender, EventArgs e)
+        private void _projectService_ProjectListChanged(object sender, EventArgs e)
         {
-            if (!_authentication.Authenticated)
-            {
-                await _authentication.Authenticate();
-            }
-
-            if (_authentication.Authenticated)
-            {
-                await LoadProjectList();
-                ActiveControl = txtSearchBox;
-            }
-            else
-            {
-                MessageBox.Show(@"Not authenticated, please login.", @"Mail Assistant", MessageBoxButtons.OK,MessageBoxIcon.Error);
-                Close();
-            }
+            LoadProjects();
         }
 
-        private async Task LoadProjectList()
+        private void ProjectListForm_Load(object sender, EventArgs e)
         {
-            var result = await _projectService.GetAllProjects();
+            LoadProjects();
+        }
+
+        private void LoadProjects()
+        {
+            var result = _projectService.GetProjects();
             _projectList = result.OrderByDescending(p => p.Code, new ProjectCodeComparer());
-            PopulateGrid();
+            PopulateGrid(txtSearchBox.Text);
+            ActiveControl = txtSearchBox;
         }
 
         private void PopulateGrid(string searchText = "")
@@ -91,7 +83,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void SetColumns()
         {
-            using (var column = gridProjects.Columns[nameof(ProjectModel.Code)])
+            using (var column = gridProjects.Columns[nameof(Project.Code)])
             {
                 if (column != null)
                 {
@@ -101,7 +93,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 }
             }
 
-            using (var column = gridProjects.Columns[nameof(ProjectModel.Name)])
+            using (var column = gridProjects.Columns[nameof(Project.Name)])
             {
                 if (column != null)
                 {
@@ -111,7 +103,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 }
             }
 
-            using (var column = gridProjects.Columns[nameof(ProjectModel.Discipline)])
+            using (var column = gridProjects.Columns[nameof(Project.Discipline)])
             {
                 if (column != null)
                 {
@@ -121,7 +113,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 }
             }
 
-            using (var column = gridProjects.Columns[nameof(ProjectModel.Grouping)])
+            using (var column = gridProjects.Columns[nameof(Project.Grouping)])
             {
                 if (column != null)
                 {
@@ -141,11 +133,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
         {
             DialogResult = gridProjects.SelectedRows.Count == 1 ? DialogResult.OK : DialogResult.Cancel;
             Close();
-        }
-
-        ~ProjectListForm()
-        {
-            ThisAddIn.MessageProvider.ErrorOccurred -= MessageProvider_OnErrorOccurred;
         }
 
         private void gridProjects_SelectionChanged(object sender, EventArgs e)

@@ -133,17 +133,8 @@
     This section specifies references for the project.
   -->
   <ItemGroup>
-    <Reference Include="Backend, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jpp.Common.Backend.0.1.21\lib\netstandard2.0\Backend.dll</HintPath>
-    </Reference>
     <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jpp.Common.0.2.16\lib\netstandard2.0\Common.dll</HintPath>
-    </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
-    </Reference>
-    <Reference Include="IdentityModel, Version=3.10.10.0, Culture=neutral, PublicKeyToken=e7877f4675df049f, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.3.10.10\lib\net452\IdentityModel.dll</HintPath>
+      <HintPath>..\packages\Jpp.Common.0.3.7\lib\netstandard2.0\Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.2.5.0\lib\net45\Microsoft.AppCenter.dll</HintPath>
@@ -154,16 +145,10 @@
     <Reference Include="Microsoft.AppCenter.Crashes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.Crashes.2.5.0\lib\net45\Microsoft.AppCenter.Crashes.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView, Version=5.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Toolkit.Forms.UI.Controls.WebView.5.1.1\lib\net462\Microsoft.Toolkit.Forms.UI.Controls.WebView.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -388,20 +373,11 @@
     <Compile Include="Abstracts\IMoveable.cs" />
     <Compile Include="Abstracts\IOutlookItem.cs" />
     <Compile Include="Abstracts\IWrappedObject.cs" />
-    <Compile Include="Backend\MessageProvider.cs" />
-    <Compile Include="Backend\OfficeAddInOAuth.cs" />
-    <Compile Include="Backend\StorageProvider.cs" />
     <Compile Include="AppDeployment.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\OutlookItemFactoryException.cs" />
     <Compile Include="Factories\OutlookItemFactory.cs" />
     <Compile Include="Factories\OutlookFolderFactory.cs" />
-    <Compile Include="Forms\LoginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -424,6 +400,8 @@
     <Compile Include="OutputReports\ItemProperities.cs" />
     <Compile Include="OutlookExplorer.cs" />
     <Compile Include="OutlookInspector.cs" />
+    <Compile Include="Projects\Project.cs" />
+    <Compile Include="Projects\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -453,9 +431,6 @@
     <Compile Include="Wrappers\OutlookItems\TaskRequestItemWrapper.cs" />
     <Compile Include="Wrappers\OutlookItems\TaskRequestUpdateItemWrapper.cs" />
     <Compile Include="Wrappers\SelectionWrapper.cs" />
-    <EmbeddedResource Include="Forms\LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
