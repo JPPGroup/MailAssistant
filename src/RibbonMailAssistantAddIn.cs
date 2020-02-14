@@ -113,26 +113,27 @@ namespace Jpp.AddIn.MailAssistant
         private void NavigateToSharedFolder()
         {
             var explorer = Globals.ThisAddIn.Application.ActiveExplorer();
-            
-            using (var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application))
-            {
-                wrappedSharedFolder.NavigateToFolder(explorer);
-            }
+
+            using var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application);
+            wrappedSharedFolder?.NavigateToFolder(explorer);
         }
 
         private void MoveSelection(Outlook.Selection selection)
         {
-            using (var wrappedSelection = new SelectionWrapper(selection))
-            using (var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application))
-            {
-                wrappedSharedFolder.MoveIntoFolder(wrappedSelection);
-            }
+            using var wrappedSelection = new SelectionWrapper(selection);
+            using var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application);
+            wrappedSharedFolder?.MoveIntoFolder(wrappedSelection);
         }
 
         private void NewSharedFolder()
         {
             using var folder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application);
             {
+                if (folder == null)
+                {
+                    return;
+                }
+
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append($"Successfully created folder: \n{folder.Name}.");
 
