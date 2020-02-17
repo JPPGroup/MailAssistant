@@ -133,17 +133,24 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                             {
                                 status = ItemStatus.Skipped;
                             }
-                            
-                            outcome.AddAndTrackItem(new ItemProperties(outlookItem.Description, outlookItem.Folder, Name, status));
+
+                            outcome.AddAndTrackItem(new ItemProperties(outlookItem.Description, outlookItem.Folder,Name, status));
                         }
                     }
-                    catch (OutlookItemFactoryException e) //Log factory exception and move to next item
+                    catch (OutlookItemFactoryException e) //Log factory exception and move to next item.
                     {
                         outcome.Error++;
                         Crashes.TrackError(e);
                     }
+                    catch (COMException comEx) //Something bad happened, lets stop.
+                    {
+                        outcome.Error++;
+                        Crashes.TrackError(comEx);
+                        break;
+                    }
                 }
 
+                outcome.CompletedMove = true;
                 return outcome;
             });
         }

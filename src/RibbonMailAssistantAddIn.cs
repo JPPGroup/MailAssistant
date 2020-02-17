@@ -1,9 +1,7 @@
 ﻿using Jpp.AddIn.MailAssistant.Factories;
-using Jpp.AddIn.MailAssistant.Properties;
 using Jpp.AddIn.MailAssistant.Wrappers;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -120,6 +118,14 @@ namespace Jpp.AddIn.MailAssistant
 
         private void MoveSelection(Outlook.Selection selection)
         {
+            if (selection.Count >= 50)
+            {
+                MessageBox.Show($@"Exceeded maximum number of moveable items.{Environment.NewLine}Please select less than 50 items.", 
+                    @"Mail Assistant", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                return;
+            }
+
             using var wrappedSelection = new SelectionWrapper(selection);
             using var wrappedSharedFolder = OutlookFolderFactory.GetOrCreateSharedFolder(Globals.ThisAddIn.Application);
             wrappedSharedFolder?.MoveIntoFolder(wrappedSelection);

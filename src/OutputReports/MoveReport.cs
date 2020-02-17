@@ -17,6 +17,7 @@ namespace Jpp.AddIn.MailAssistant.OutputReports
         public int Failed => Items.Count(i => i.Status == ItemStatus.Failed);
         public int Duplicate => Items.Count(i => i.Status == ItemStatus.Duplicate);
         public int Skipped => Items.Count(i => i.Status == ItemStatus.Skipped);
+        public bool CompletedMove { get; set; }
 
         public MoveReport(FolderWrapper destinationFolder, SelectionWrapper selection)
         {
