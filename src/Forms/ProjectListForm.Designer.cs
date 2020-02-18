@@ -1,4 +1,6 @@
-﻿namespace Jpp.AddIn.MailAssistant.Forms
+﻿using System;
+
+namespace Jpp.AddIn.MailAssistant.Forms
 {
     partial class ProjectListForm
     {
@@ -115,11 +117,22 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select a project...";
             this.Load += new System.EventHandler(this.ProjectListForm_Load);
+            this.Closed += new System.EventHandler(this.ProjectListForm_Closed);
             this.panMain.ResumeLayout(false);
             this.panMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProjects)).EndInit();
             this.ResumeLayout(false);
 
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         #endregion

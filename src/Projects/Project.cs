@@ -16,6 +16,7 @@ namespace Jpp.AddIn.MailAssistant.Projects
         public string ExternalId { get; set; }
         public string Grouping { get; set; }
         public string Folder { get; set; }
+        public string SharedMailPath { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }

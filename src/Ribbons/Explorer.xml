@@ -67,6 +67,12 @@
               imageMso="AttachItem"
               onAction="OnAction_SendToHub"/>
     </contextMenu>
+    <contextMenu idMso="ContextMenuFolder">
+      <button id="RenameFolder"
+              label="Rename Shared Folder"
+              imageMso="DatasheetColumnRename"
+              onAction="OnAction_RenameSharedFolder"/>
+    </contextMenu>
   </contextMenus>
 </customUI>
 

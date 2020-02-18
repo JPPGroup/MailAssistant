@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Jpp.AddIn.MailAssistant.Forms;
 using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
@@ -96,6 +97,27 @@ namespace Jpp.AddIn.MailAssistant
             try
             {
                 NavigateToSharedFolder();
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
+            }
+        }
+
+        public void OnAction_RenameSharedFolder(Office.IRibbonControl control)
+        {
+
+            try
+            {
+                var folder = control.Context as Outlook.Folder;
+
+                using var frm = new ProjectListForm(ThisAddIn.ProjectService);
+                var result = frm.ShowDialog();
+                if (result == DialogResult.OK && folder != null)
+                {
+                    folder.Name = frm.SelectedFolder;
+                }
             }
             catch (Exception e)
             {

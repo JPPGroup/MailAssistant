@@ -16,7 +16,7 @@ namespace Jpp.AddIn.MailAssistant.Factories
             using var frm = new ProjectListForm(ThisAddIn.ProjectService);
             var result = frm.ShowDialog();
 
-            return result != DialogResult.OK ? null : GetSharedFolder(outlookApplication, frm.SelectedFolder);
+            return result != DialogResult.OK ? null : GetSharedFolder(outlookApplication, frm.SelectedPath);
         }
 
         private static FolderWrapper GetSharedFolder(Outlook.Application outlookApplication, string folderPath)
@@ -25,13 +25,14 @@ namespace Jpp.AddIn.MailAssistant.Factories
 
             var namespaceFolders = outlookApplication.GetNamespace(Constants.NAMESPACE_TYPE).Folders;
 
-            var sharedFolder = namespaceFolders.Cast<Outlook.Folder>().FirstOrDefault(f => f.Name == Constants.BASE_SHARED_FOLDER_NAME);
+            var arrFolders = folderPath.Split('\\');
+
+            var sharedFolder = namespaceFolders.Cast<Outlook.Folder>().FirstOrDefault(f => f.Name == arrFolders[0]);
             if (sharedFolder == null) throw new ArgumentNullException(nameof(sharedFolder), @"Base shared folder not set.");
 
-            var arrFolders = folderPath.Split('\\');
             var folder = new FolderWrapper(sharedFolder);
 
-            for (var i = 0; i <= arrFolders.GetUpperBound(0); i++)
+            for (var i = 1; i <= arrFolders.GetUpperBound(0); i++)
             {
                 if (string.IsNullOrWhiteSpace(arrFolders[i]) || folder.Name == arrFolders[i]) continue;
                 folder = folder.GetOrCreateSubFolder(arrFolders[i]);

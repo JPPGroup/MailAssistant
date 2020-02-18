@@ -13,6 +13,17 @@ namespace Jpp.AddIn.MailAssistant.Forms
         private IEnumerable<Project> _projectList;
         private string _searchText;
 
+        public string SelectedPath
+        {
+            get
+            {
+                if (gridProjects.SelectedRows.Count != 1) return null;
+                var item = gridProjects.SelectedRows[0];
+
+                return item.Cells[nameof(Project.SharedMailPath)].Value.ToString();
+            }
+        }
+
         public string SelectedFolder
         {
             get
@@ -20,11 +31,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 if (gridProjects.SelectedRows.Count != 1) return null;
                 var item = gridProjects.SelectedRows[0];
 
-                var group = item.Cells[nameof(Project.Grouping)].Value;
-                var code = item.Cells[nameof(Project.Code)].Value;
-                var name = item.Cells[nameof(Project.Name)].Value;
-
-                return $"Testing\\{group}\\{code}-{name}";
+                return item.Cells[nameof(Project.Folder)].Value.ToString();
             }
         }
 
@@ -32,19 +39,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
         {
             InitializeComponent();
             _projectService = service;
-
-            _projectService.ProjectListChanged += _projectService_ProjectListChanged;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-                _projectService.ProjectListChanged -= _projectService_ProjectListChanged;
-            }
-
-            base.Dispose(disposing);
         }
 
         private void _projectService_ProjectListChanged(object sender, EventArgs e)
@@ -54,7 +48,13 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void ProjectListForm_Load(object sender, EventArgs e)
         {
+            _projectService.ProjectListChanged += _projectService_ProjectListChanged;
             LoadProjects();
+        }
+
+        private void ProjectListForm_Closed(object sender, EventArgs e)
+        {
+            _projectService.ProjectListChanged -= _projectService_ProjectListChanged;
         }
 
         private void LoadProjects()
