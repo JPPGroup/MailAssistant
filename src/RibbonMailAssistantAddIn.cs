@@ -48,19 +48,16 @@ namespace Jpp.AddIn.MailAssistant
             try
             {
                 var selection = GetAttachmentSelection(control);
-                CopyAttachments(selection);
+                if (selection != null && selection.Count >= 1)
+                {
+                    CopyAttachments(selection);
+                }
             }
             catch (Exception e)
             {
                 Crashes.TrackError(e);
                 //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
             }
-        }
-
-        public bool GetVisible_MoveToShared(Office.IRibbonControl control)
-        {
-            var selection = GetItemSelection(control);
-            return selection != null && selection.Count >= 1;
         }
 
         public void OnAction_MoveToShared(Office.IRibbonControl control)
@@ -68,12 +65,14 @@ namespace Jpp.AddIn.MailAssistant
             try
             {
                 var selection = GetItemSelection(control);
-                MoveSelection(selection);
+                if (selection != null && selection.Count >= 1)
+                {
+                    MoveSelection(selection);
+                }
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
-                //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
+                Crashes.TrackError(e); //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
             }
         }
 
@@ -195,14 +194,14 @@ namespace Jpp.AddIn.MailAssistant
             {
                 Outlook.AttachmentSelection context => context,
                 Outlook.Explorer explorer => explorer.AttachmentSelection,
-                _ => throw new NotImplementedException()
+                _ => null
             };
 
         private Outlook.Selection GetItemSelection(Office.IRibbonControl control) => control.Context switch
             {
                 Outlook.Selection context => context,
                 Outlook.Explorer explorer => explorer.Selection,
-                _ => throw new NotImplementedException()
+                _ => null
             };
 
         #endregion
