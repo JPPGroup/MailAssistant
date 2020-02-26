@@ -99,8 +99,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
             // ProjectListForm
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(778, 408);
             this.ControlBox = false;
@@ -116,8 +115,8 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select a project...";
-            this.Load += new System.EventHandler(this.ProjectListForm_Load);
             this.Closed += new System.EventHandler(this.ProjectListForm_Closed);
+            this.Load += new System.EventHandler(this.ProjectListForm_Load);
             this.panMain.ResumeLayout(false);
             this.panMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProjects)).EndInit();

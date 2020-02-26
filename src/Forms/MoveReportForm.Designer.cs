@@ -30,6 +30,8 @@
         {
             this.btnClose = new System.Windows.Forms.Button();
             this.panMain = new System.Windows.Forms.Panel();
+            this.txtError = new System.Windows.Forms.TextBox();
+            this.lblError = new System.Windows.Forms.Label();
             this.txtDuplicate = new System.Windows.Forms.TextBox();
             this.lblDuplicate = new System.Windows.Forms.Label();
             this.txtFailed = new System.Windows.Forms.TextBox();
@@ -43,8 +45,6 @@
             this.panelStatus = new System.Windows.Forms.Panel();
             this.gridItems = new System.Windows.Forms.DataGridView();
             this.btnExport = new System.Windows.Forms.Button();
-            this.txtError = new System.Windows.Forms.TextBox();
-            this.lblError = new System.Windows.Forms.Label();
             this.panMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridItems)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +82,23 @@
             this.panMain.Name = "panMain";
             this.panMain.Size = new System.Drawing.Size(931, 374);
             this.panMain.TabIndex = 7;
+            // 
+            // txtError
+            // 
+            this.txtError.Enabled = false;
+            this.txtError.Location = new System.Drawing.Point(738, 49);
+            this.txtError.Name = "txtError";
+            this.txtError.Size = new System.Drawing.Size(42, 20);
+            this.txtError.TabIndex = 20;
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(656, 52);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(35, 13);
+            this.lblError.TabIndex = 19;
+            this.lblError.Text = "Error :";
             // 
             // txtDuplicate
             // 
@@ -202,27 +219,9 @@
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             // 
-            // txtError
+            // MoveReportForm
             // 
-            this.txtError.Enabled = false;
-            this.txtError.Location = new System.Drawing.Point(738, 49);
-            this.txtError.Name = "txtError";
-            this.txtError.Size = new System.Drawing.Size(42, 20);
-            this.txtError.TabIndex = 20;
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.Location = new System.Drawing.Point(656, 52);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(35, 13);
-            this.lblError.TabIndex = 19;
-            this.lblError.Text = "Error :";
-            // 
-            // SelectionReportForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(955, 427);
             this.ControlBox = false;
@@ -232,7 +231,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SelectionReportForm";
+            this.Name = "MoveReportForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

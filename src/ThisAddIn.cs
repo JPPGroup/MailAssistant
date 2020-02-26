@@ -28,6 +28,11 @@ namespace Jpp.AddIn.MailAssistant
 
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
+            Application.Startup += Application_OnStartup;
+        }
+
+        private void Application_OnStartup()
+        {
             // Start AppCenter
             AppCenter.Start("85ffea91-fbef-4cdf-9e69-ac7c15e3a683", typeof(Analytics), typeof(Crashes));
             //TODO: check if these are to be set before or after start.
@@ -58,7 +63,7 @@ namespace Jpp.AddIn.MailAssistant
             var explorer = Application.ActiveExplorer();
             var window = new OutlookExplorer(explorer);
             Windows.Add(window);
-            
+
             // Hook up event handlers for window
             window.Close += WrappedWindow_Close;
             window.InvalidateControl += WrappedWindow_InvalidateControl;
