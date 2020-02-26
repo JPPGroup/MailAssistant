@@ -122,19 +122,19 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                     {
                         using (IOutlookItem outlookItem = OutlookItemFactory.Create(selection[i]))
                         {
-                            ItemStatus status;
+                            var itemProps = new ItemProperties(outlookItem.Description, outlookItem.Folder, Name);
 
                             if (outlookItem is IMoveable moveableItem)
                             {
-                                if (IsItemPresent(moveableItem)) status = ItemStatus.Duplicate;
-                                else status = moveableItem.Move(_innerObject) ? ItemStatus.Moved : ItemStatus.Failed;
+                                if (IsItemPresent(moveableItem)) itemProps.Status = ItemStatus.Duplicate;
+                                else itemProps.Status = moveableItem.Move(_innerObject) ? ItemStatus.Moved : ItemStatus.Failed;
                             }
                             else
                             {
-                                status = ItemStatus.Skipped;
+                                itemProps.Status = ItemStatus.Skipped;
                             }
 
-                            outcome.AddAndTrackItem(new ItemProperties(outlookItem.Description, outlookItem.Folder,Name, status));
+                            outcome.AddAndTrackItem(itemProps);
                         }
                     }
                     catch (OutlookItemFactoryException e) //Log factory exception and move to next item.
