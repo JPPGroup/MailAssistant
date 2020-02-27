@@ -85,6 +85,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.gridProjects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridProjects.Size = new System.Drawing.Size(724, 298);
             this.gridProjects.TabIndex = 7;
+            this.gridProjects.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridProjects_CellDoubleClick);
             this.gridProjects.SelectionChanged += new System.EventHandler(this.gridProjects_SelectionChanged);
             // 
             // lblSearch

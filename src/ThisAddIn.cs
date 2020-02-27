@@ -3,6 +3,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Jpp.AddIn.MailAssistant.Projects;
 using Jpp.AddIn.MailAssistant.Wrappers;
 using Office = Microsoft.Office.Core;
@@ -16,7 +17,6 @@ namespace Jpp.AddIn.MailAssistant
 
         private Outlook.Explorers _explorers;
         private Outlook.Inspectors _inspectors;
-        private AppDeploymentCheck _appCheck;
 
         internal static List<OutlookExplorer> Windows;  // List of tracked explorer windows  
         internal static List<OutlookInspector> InspectorWindows; // List of tracked inspector windows         
@@ -28,35 +28,19 @@ namespace Jpp.AddIn.MailAssistant
 
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
-            Application.Startup += Application_OnStartup;
-        }
-
-        private void Application_OnStartup()
-        {
-            // Start AppCenter
-            AppCenter.Start("85ffea91-fbef-4cdf-9e69-ac7c15e3a683", typeof(Analytics), typeof(Crashes));
-            //TODO: check if these are to be set before or after start.
-            Analytics.SetEnabledAsync(true);
-            Crashes.SetEnabledAsync(true);
-
-            using (var user = new AddressEntryWrapper(Application.Session.CurrentUser.AddressEntry))
-            {
-                AppCenter.SetUserId(user.Address);
-            }
+            var setupThread = new Thread(Setup);
+            setupThread.SetApartmentState(ApartmentState.STA);
+            setupThread.Start();
 
             // Initialize variables
             _explorers = Application.Explorers;
             _inspectors = Application.Inspectors;
-            _appCheck = new AppDeploymentCheck();
 
             Windows = new List<OutlookExplorer>();
             InspectorWindows = new List<OutlookInspector>();
-            ProjectService = new ProjectService();
 
-            // Wire up event handlers to handle multiple Explorer windows
+            // Wire up event handlers to handle multiple Explorer & Inspector windows
             _explorers.NewExplorer += OutlookEvent_Explorers_NewExplorer;
-
-            // Wire up event handlers to handle multiple Inspector windows
             _inspectors.NewInspector += OutlookEvent__Inspectors_NewInspector;
 
             // Add the ActiveExplorer to Windows
@@ -76,8 +60,6 @@ namespace Jpp.AddIn.MailAssistant
             _inspectors.NewInspector -= OutlookEvent__Inspectors_NewInspector;
 
             // Dereference objects
-            _appCheck.Dispose();
-            _appCheck = null;
             _explorers = null;
             _inspectors = null;
             Windows.Clear();
@@ -85,11 +67,27 @@ namespace Jpp.AddIn.MailAssistant
             InspectorWindows.Clear();
             InspectorWindows = null;
             Ribbon = null;
+            ProjectService = null;
         }
 
         protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
             return new RibbonMailAssistantAddIn();
+        }
+
+        private void Setup()
+        {
+            AppCenter.Start("85ffea91-fbef-4cdf-9e69-ac7c15e3a683", typeof(Analytics), typeof(Crashes));
+            //TODO: check if these are to be set before or after start.
+            Analytics.SetEnabledAsync(true);
+            Crashes.SetEnabledAsync(true);
+
+            using (var user = new AddressEntryWrapper(Application.Session.CurrentUser.AddressEntry))
+            {
+                AppCenter.SetUserId(user.Address);
+            }
+
+            ProjectService = new ProjectService();
         }
 
         #endregion
@@ -188,10 +186,6 @@ namespace Jpp.AddIn.MailAssistant
 
         #region VSTO generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InternalStartup()
         {
             Startup += ThisAddIn_Startup;

@@ -55,21 +55,24 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                 moved = _innerObject.Move(folder);
                 parent = moved.Parent;
 
-                if (parent.Name != folder.Name)
+                if (parent.FullFolderPath != folder.FullFolderPath)
                 {
                     var ex = new Exception("Item not moved to expected folder");
                     var props = new Dictionary<string, string>
                     {
                         {"Item", nameof(Outlook.MailItem)},
                         {"Description", Description},
-                        {"Target", folder.Name},
-                        {"Actual", parent.Name}
+                        {"Target", folder.FullFolderPath},
+                        {"Actual", parent.FullFolderPath}
                     };
 
                     Crashes.TrackError(ex, props);
+                    return false;
                 }
-
-                return parent.Name == folder.Name;
+                else
+                {
+                    return true;
+                }
             }
             catch (Exception e)
             {

@@ -41,20 +41,20 @@ namespace Jpp.AddIn.MailAssistant.Forms
             _projectService = service;
         }
 
-        private void _projectService_ProjectListChanged(object sender, EventArgs e)
+        private void projectService_ProjectListChanged(object sender, EventArgs e)
         {
             LoadProjects();
         }
 
         private void ProjectListForm_Load(object sender, EventArgs e)
         {
-            _projectService.ProjectListChanged += _projectService_ProjectListChanged;
+            _projectService.ProjectListChanged += projectService_ProjectListChanged;
             LoadProjects();
         }
 
         private void ProjectListForm_Closed(object sender, EventArgs e)
         {
-            _projectService.ProjectListChanged -= _projectService_ProjectListChanged;
+            _projectService.ProjectListChanged -= projectService_ProjectListChanged;
         }
 
         private void LoadProjects()
@@ -131,6 +131,11 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
+            CloseForm();
+        }
+
+        private void CloseForm()
+        {
             DialogResult = gridProjects.SelectedRows.Count == 1 ? DialogResult.OK : DialogResult.Cancel;
             Close();
         }
@@ -138,6 +143,11 @@ namespace Jpp.AddIn.MailAssistant.Forms
         private void gridProjects_SelectionChanged(object sender, EventArgs e)
         {
             btnOk.Enabled = gridProjects.SelectedRows.Count == 1;
+        }
+
+        private void gridProjects_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            CloseForm();
         }
     }
 }

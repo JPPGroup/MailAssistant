@@ -373,7 +373,6 @@
     <Compile Include="Abstracts\IMoveable.cs" />
     <Compile Include="Abstracts\IOutlookItem.cs" />
     <Compile Include="Abstracts\IWrappedObject.cs" />
-    <Compile Include="AppDeployment.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\OutlookItemFactoryException.cs" />
     <Compile Include="Factories\OutlookItemFactory.cs" />
