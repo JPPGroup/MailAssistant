@@ -93,7 +93,32 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
 
         private Outlook.Folder GetSubFolder(string folderName)
         {
-            return _innerObject.Folders.Cast<Outlook.Folder>().FirstOrDefault(folder => folder.Name == folderName || CheckFolderForCode(folder.Name, folderName));
+            return GetSubFolderViaName(folderName) ?? GetSubFolderViaCode(folderName);
+        }
+
+        private Outlook.Folder GetSubFolderViaCode(string folderName)
+        {
+            return _innerObject.Folders.Cast<Outlook.Folder>().FirstOrDefault(folder => CheckFolderForCode(folder.Name, folderName));
+        }
+
+        // Folder name index is fastest method for getting folder. But no graceful way to handle if folder isn't folder.
+        private Outlook.Folder GetSubFolderViaName(string folderName)
+        {
+            try
+            {
+                var folder = _innerObject.Folders[folderName];
+                return (Outlook.Folder)folder;
+            }
+            catch (COMException ex)
+            {
+                Crashes.TrackError(ex, new Dictionary<string, string>
+                {
+                    { "Parent", Name },
+                    { "Folder", folderName }
+                });
+
+                return null;
+            }
         }
 
         private Outlook.Folder CreateSubFolder(string folderName)
