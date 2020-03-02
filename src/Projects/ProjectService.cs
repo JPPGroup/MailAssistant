@@ -16,13 +16,8 @@ namespace Jpp.AddIn.MailAssistant.Projects
 
         public ProjectService()
         {
-            this.client = this.CreateHttpClient();
-            LoadProjects();
-        }
-
-        private async void LoadProjects()
-        {
-            this.projects = await GetProjectListAsync();
+            this.client = CreateHttpClient();
+            this.projects = new List<Project>();
         }
 
         public IEnumerable<Project> GetProjects()
@@ -34,14 +29,13 @@ namespace Jpp.AddIn.MailAssistant.Projects
         private async void ReloadProjects()
         {
             var list = await GetProjectListAsync();
-            if (list.Count != projects.Count)
-            {
-                projects = list;
-                OnProjectListChanged(EventArgs.Empty);
-            }
+            if (list.Count == projects.Count) return;
+
+            projects = list;
+            OnProjectListChanged(EventArgs.Empty);
         }
 
-        protected virtual void OnProjectListChanged(EventArgs e)
+        private void OnProjectListChanged(EventArgs e)
         {
             var handler = ProjectListChanged;
             handler?.Invoke(this, e);
@@ -49,19 +43,17 @@ namespace Jpp.AddIn.MailAssistant.Projects
 
         private async Task<IList<Project>> GetProjectListAsync()
         {
-            using var message = this.GetProjectRequestMessage();
+            using var message = GetProjectRequestMessage();
             var response = await this.client.SendAsync(message).ConfigureAwait(false);
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<IList<Project>>(result);
-            }
 
-            return new List<Project>();
+            return response.IsSuccessStatusCode 
+                ? JsonConvert.DeserializeObject<IList<Project>>(result) 
+                : new List<Project>();
         }
 
-        private HttpClient CreateHttpClient()
+        private static HttpClient CreateHttpClient()
         {
             var clientHttp = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
             clientHttp.DefaultRequestHeaders.Accept.Clear();
@@ -69,9 +61,9 @@ namespace Jpp.AddIn.MailAssistant.Projects
             return clientHttp;
         }
 
-        private HttpRequestMessage GetProjectRequestMessage()
+        private static HttpRequestMessage GetProjectRequestMessage()
         {
-            var builder = this.GetUriBuilder("api/projects");
+            var builder = GetUriBuilder("api/projects");
 
             return new HttpRequestMessage
             {
@@ -80,7 +72,7 @@ namespace Jpp.AddIn.MailAssistant.Projects
             };
         }
 
-        private UriBuilder GetUriBuilder(string path)
+        private static UriBuilder GetUriBuilder(string path)
         {
             return new UriBuilder
             {

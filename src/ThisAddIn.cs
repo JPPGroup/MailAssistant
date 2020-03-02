@@ -15,13 +15,34 @@ namespace Jpp.AddIn.MailAssistant
     {
         #region Instance Variables
 
+        private static ProjectService _projectService;
+        private static readonly object _padlock = new object();
+
         private Outlook.Explorers _explorers;
         private Outlook.Inspectors _inspectors;
 
         internal static List<OutlookExplorer> Windows;  // List of tracked explorer windows  
         internal static List<OutlookInspector> InspectorWindows; // List of tracked inspector windows         
         internal static Office.IRibbonUI Ribbon; // Ribbon UI reference
-        internal static ProjectService ProjectService;
+
+        internal static ProjectService ProjectService
+        {
+            get
+            {
+                if (_projectService == null)
+                {
+                    lock (_padlock)
+                    {
+                        if (_projectService == null)
+                        {
+                            _projectService = new ProjectService();
+                        }
+                    }
+                }
+                return _projectService;
+            }
+        }
+
         #endregion
 
         #region VSTO Startup and Shutdown methods
@@ -62,12 +83,12 @@ namespace Jpp.AddIn.MailAssistant
             // Dereference objects
             _explorers = null;
             _inspectors = null;
+            _projectService = null;
             Windows.Clear();
             Windows = null;
             InspectorWindows.Clear();
             InspectorWindows = null;
             Ribbon = null;
-            ProjectService = null;
         }
 
         protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
@@ -82,12 +103,8 @@ namespace Jpp.AddIn.MailAssistant
             Analytics.SetEnabledAsync(true);
             Crashes.SetEnabledAsync(true);
 
-            using (var user = new AddressEntryWrapper(Application.Session.CurrentUser.AddressEntry))
-            {
-                AppCenter.SetUserId(user.Address);
-            }
-
-            ProjectService = new ProjectService();
+            using var user = new AddressEntryWrapper(Application.Session.CurrentUser.AddressEntry);
+            AppCenter.SetUserId(user.Address);
         }
 
         #endregion

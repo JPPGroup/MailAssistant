@@ -41,20 +41,20 @@ namespace Jpp.AddIn.MailAssistant.Forms
             _projectService = service;
         }
 
-        private void projectService_ProjectListChanged(object sender, EventArgs e)
+        private void ProjectService_ProjectListChanged(object sender, EventArgs e)
         {
             LoadProjects();
         }
 
         private void ProjectListForm_Load(object sender, EventArgs e)
         {
-            _projectService.ProjectListChanged += projectService_ProjectListChanged;
+            _projectService.ProjectListChanged += ProjectService_ProjectListChanged;
             LoadProjects();
         }
 
         private void ProjectListForm_Closed(object sender, EventArgs e)
         {
-            _projectService.ProjectListChanged -= projectService_ProjectListChanged;
+            _projectService.ProjectListChanged -= ProjectService_ProjectListChanged;
         }
 
         private void LoadProjects()
@@ -67,8 +67,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void PopulateGrid(string searchText = "")
         {
-            if (_searchText == searchText) return;
-
             var projects = !string.IsNullOrEmpty(searchText)
                 ? _projectList.Where(project => project.Code.ToLower().Contains(searchText.ToLower()) || project.Name.ToLower().Contains(searchText.ToLower()))
                 : _projectList;
@@ -126,7 +124,14 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void TxtSearchBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (sender is TextBox textBox) PopulateGrid(textBox.Text);
+            if (sender is TextBox textBox)
+            {
+                if (_searchText != textBox.Text)
+                {
+                    PopulateGrid(textBox.Text);
+                }
+                
+            }
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
