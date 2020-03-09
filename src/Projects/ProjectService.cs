@@ -55,7 +55,8 @@ namespace Jpp.AddIn.MailAssistant.Projects
 
         private static HttpClient CreateHttpClient()
         {
-            var clientHttp = new HttpClient { Timeout = TimeSpan.FromMinutes(10) };
+            var handler = new HttpClientHandler {UseDefaultCredentials = true};
+            var clientHttp = new HttpClient(handler) { Timeout = TimeSpan.FromMinutes(10)};
             clientHttp.DefaultRequestHeaders.Accept.Clear();
             clientHttp.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return clientHttp;
@@ -63,7 +64,7 @@ namespace Jpp.AddIn.MailAssistant.Projects
 
         private static HttpRequestMessage GetProjectRequestMessage()
         {
-            var builder = GetUriBuilder("api/projects");
+            var builder = GetUriBuilder("api/projects/cons");
 
             return new HttpRequestMessage
             {
@@ -77,7 +78,7 @@ namespace Jpp.AddIn.MailAssistant.Projects
             return new UriBuilder
             {
                 Scheme = "http",
-                Host = "192.168.4.77",
+                Host = "jpp-web-svr",
                 Port = 8080,
                 Path = path,
             };

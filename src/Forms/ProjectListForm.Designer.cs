@@ -24,8 +24,10 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.panMain = new System.Windows.Forms.Panel();
             this.gridProjects = new System.Windows.Forms.DataGridView();
             this.lblSearch = new System.Windows.Forms.Label();
+            this.picLoading = new System.Windows.Forms.PictureBox();
             this.panMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProjects)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -62,6 +64,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
             // 
             this.panMain.BackColor = System.Drawing.Color.White;
             this.panMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panMain.Controls.Add(this.picLoading);
             this.panMain.Controls.Add(this.gridProjects);
             this.panMain.Controls.Add(this.lblSearch);
             this.panMain.Controls.Add(this.txtSearchBox);
@@ -97,6 +100,19 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.lblSearch.TabIndex = 5;
             this.lblSearch.Text = "Search :";
             // 
+            // picLoading
+            // 
+            this.picLoading.BackColor = System.Drawing.Color.Transparent;
+            this.picLoading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picLoading.Image = global::Jpp.AddIn.MailAssistant.Properties.Resources.giphy;
+            this.picLoading.Location = new System.Drawing.Point(14, 38);
+            this.picLoading.Name = "picLoading";
+            this.picLoading.Size = new System.Drawing.Size(724, 298);
+            this.picLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picLoading.TabIndex = 8;
+            this.picLoading.TabStop = false;
+            this.picLoading.Visible = false;
+            // 
             // ProjectListForm
             // 
             this.AcceptButton = this.btnOk;
@@ -121,6 +137,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.panMain.ResumeLayout(false);
             this.panMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridProjects)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -143,5 +160,6 @@ namespace Jpp.AddIn.MailAssistant.Forms
         private System.Windows.Forms.Panel panMain;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.DataGridView gridProjects;
+        private System.Windows.Forms.PictureBox picLoading;
     }
 }

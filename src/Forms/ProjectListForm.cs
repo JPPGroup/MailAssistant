@@ -59,10 +59,12 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void LoadProjects()
         {
-            var result = _projectService.GetProjects();
+            var result = _projectService.GetProjects().ToList();
             _projectList = result.OrderByDescending(p => p.Code, new ProjectCodeComparer());
             PopulateGrid(txtSearchBox.Text);
             ActiveControl = txtSearchBox;
+
+            picLoading.Visible = !result.Any();
         }
 
         private void PopulateGrid(string searchText = "")
@@ -101,7 +103,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
                 }
             }
 
-            using (var column = gridProjects.Columns[nameof(Project.Discipline)])
+            using (var column = gridProjects.Columns[nameof(Project.Category)])
             {
                 if (column != null)
                 {
