@@ -104,6 +104,21 @@ namespace Jpp.AddIn.MailAssistant
             }
         }
 
+        public void OnAction_About(Office.IRibbonControl control)
+        {
+
+            try
+            {
+                About about = new About();
+                about.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                Crashes.TrackError(e);
+                //TODO: need to info user. Cannot rethrow as will be swallowed up by Outlook.
+            }
+        }
+
         public void OnAction_RenameSharedFolder(Office.IRibbonControl control)
         {
 

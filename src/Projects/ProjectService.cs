@@ -64,7 +64,7 @@ namespace Jpp.AddIn.MailAssistant.Projects
 
         private static HttpRequestMessage GetProjectRequestMessage()
         {
-            var builder = GetUriBuilder("api/projects/cons");
+            var builder = GetUriBuilder("projects/api/projects", "consulting");
 
             return new HttpRequestMessage
             {
@@ -73,14 +73,19 @@ namespace Jpp.AddIn.MailAssistant.Projects
             };
         }
 
-        private static UriBuilder GetUriBuilder(string path)
+        private static UriBuilder GetUriBuilder(string path, string company)
         {
             return new UriBuilder
             {
-                Scheme = "http",
+                /*Scheme = "http",
                 Host = "jpp-web-svr",
                 Port = 8080,
+                Path = "api/projects/cons"*/
+                Scheme = "http",
+                Host = "services.cedarbarn.local",
+                Port = 80,
                 Path = path,
+                Query = $"company={company}"
             };
         }
     }

@@ -28,6 +28,14 @@
                   screentip="Navigate To Shared Folder"
                   supertip="Navigate To Shared Folder"
                   onAction="OnAction_GoToFolder"/>
+          <separator id="separator2" />
+          <button id="btnAbout"
+                size="large"
+                imageMso="Info"
+                label="About"
+                screentip="About"
+                supertip="About"
+                onAction="OnAction_About"/>
         </group>
       </tab>
     </tabs>
