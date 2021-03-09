@@ -415,6 +415,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserSettings.cs" />
     <Compile Include="Wrappers\AddressEntryWrapper.cs" />
     <Compile Include="Wrappers\FolderWrapper.cs" />
     <Compile Include="Wrappers\OutlookItems\AppointmentItemWrapper.cs" />

@@ -45,6 +45,7 @@
             this.panelStatus = new System.Windows.Forms.Panel();
             this.gridItems = new System.Windows.Forms.DataGridView();
             this.btnExport = new System.Windows.Forms.Button();
+            this.closesnooze = new System.Windows.Forms.Button();
             this.panMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridItems)).BeginInit();
             this.SuspendLayout();
@@ -52,7 +53,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(868, 392);
+            this.btnClose.Location = new System.Drawing.Point(745, 392);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 5;
@@ -212,12 +213,24 @@
             // 
             this.btnExport.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(787, 392);
+            this.btnExport.Location = new System.Drawing.Point(664, 392);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(75, 23);
             this.btnExport.TabIndex = 8;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
+            // 
+            // closesnooze
+            // 
+            this.closesnooze.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.closesnooze.Enabled = false;
+            this.closesnooze.Location = new System.Drawing.Point(826, 392);
+            this.closesnooze.Name = "closesnooze";
+            this.closesnooze.Size = new System.Drawing.Size(117, 23);
+            this.closesnooze.TabIndex = 9;
+            this.closesnooze.Text = "Snooze for 30 Days";
+            this.closesnooze.UseVisualStyleBackColor = true;
+            this.closesnooze.Click += new System.EventHandler(this.closesnooze_Click);
             // 
             // MoveReportForm
             // 
@@ -225,6 +238,7 @@
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(955, 427);
             this.ControlBox = false;
+            this.Controls.Add(this.closesnooze);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.panMain);
@@ -261,5 +275,6 @@
         private System.Windows.Forms.Label lblTarget;
         private System.Windows.Forms.TextBox txtError;
         private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.Button closesnooze;
     }
 }
