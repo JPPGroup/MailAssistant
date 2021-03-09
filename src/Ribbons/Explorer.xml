@@ -39,19 +39,6 @@
         </group>
       </tab>
     </tabs>
-    <contextualTabs>
-      <tabSet idMso="TabSetAttachments">
-        <tab idMso="TabAttachments">
-          <group label="Mail Assistant" id="Jpp.MailAssistant.Attachment">
-            <button id="SendToHub"
-                    size="large"
-                    label="Send Attachment To jHub"
-                    imageMso="AttachItem"
-                    onAction="OnAction_SendToHub"/>
-          </group>
-        </tab>
-      </tabSet>
-    </contextualTabs>
   </ribbon>
   <contextMenus>
     <contextMenu idMso="ContextMenuMailItem">
@@ -65,12 +52,6 @@
               label="Move To Shared Folder"
               imageMso="MoveToFolder"
               onAction="OnAction_MoveToShared"/>
-    </contextMenu>
-    <contextMenu idMso="ContextMenuAttachments">
-      <button id="SendToHubContextMenuAttachments"
-              label="Send Attachment To jHub"
-              imageMso="AttachItem"
-              onAction="OnAction_SendToHub"/>
     </contextMenu>
     <contextMenu idMso="ContextMenuFolder">
       <button id="RenameFolder"
