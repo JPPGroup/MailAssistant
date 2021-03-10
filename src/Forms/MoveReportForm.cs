@@ -113,7 +113,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void closesnooze_Click(object sender, System.EventArgs e)
         {
-            UserSettings.SnoozeDialogUntil(DateTime.Now + new TimeSpan(30,0,0,0));
+            
             Close();
         }
     }

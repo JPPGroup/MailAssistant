@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace Jpp.AddIn.MailAssistant.Wrappers
@@ -138,6 +139,12 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
             return Task.Run(() =>
             {
                 var outcome = new MoveReport(this, selection);
+                bool? autoDelete =  null;
+                if (UserSettings.IsDialogSnoozed())
+                {
+                    autoDelete = UserSettings.IsAutoDelete();
+                }
+                bool? oneDelete = null;
 
                 for (var i = 1; i <= selection.Count; i++) // Fine to move forward through selection, as collection doesn't change on move of item.
                 {
@@ -151,7 +158,35 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
 
                             if (outlookItem is IMoveable moveableItem)
                             {
-                                if (IsItemPresent(moveableItem)) itemProps.Status = ItemStatus.Duplicate;
+                                if (IsItemPresent(moveableItem))
+                                {
+                                    itemProps.Status = ItemStatus.Duplicate;
+
+                                    if (oneDelete == null && !autoDelete.HasValue)
+                                    {
+                                        MoveConfirm moveConfirm = new MoveConfirm();
+                                        if (moveConfirm.ShowDialog() == DialogResult.Yes)
+                                        {
+                                            oneDelete = true;
+                                        }
+                                        else
+                                        {
+                                            oneDelete = false;
+                                        }
+                                    }
+                                    
+                                    if ((autoDelete.HasValue && autoDelete.Value) || (oneDelete.HasValue && oneDelete.Value))
+                                    {
+                                        moveableItem.Delete();
+                                    }
+
+                                    /*if (UserSettings.IsDialogSnoozed())
+                                    {
+                                        moveableItem.Delete();
+                                        itemProps.Status = ItemStatus.DuplicateDeleted;
+                                    }*/
+                                }
+                                
                                 else itemProps.Status = moveableItem.Move(_innerObject) ? ItemStatus.Moved : ItemStatus.Failed;
                             }
                             else

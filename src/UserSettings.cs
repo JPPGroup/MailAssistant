@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace Jpp.AddIn.MailAssistant
@@ -37,20 +33,42 @@ namespace Jpp.AddIn.MailAssistant
             return false;
         }
         
-        public static void SnoozeDialogUntil(DateTime dateTime)
+        public static void SnoozeDialogUntil(DateTime dateTime, bool autoDelete)
         {
             try
             {
                 using (RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\JPP Consulting\\MailAssistant"))
                 {
                     string date = dateTime.ToShortDateString();
-                    key.SetValue(date, RegistryValueKind.String);
+                    key.SetValue("ReportSnooze", date, RegistryValueKind.String);
+                    key.SetValue("AutoDelete", autoDelete, RegistryValueKind.DWord);
                 }
             }
             catch (Exception ex)  
             {
                 //TODO: Add logging for this
             }
+        }
+
+        public static bool IsAutoDelete()
+        {
+            try
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\JPP Consulting\\MailAssistant"))
+                {
+                    if (key != null)
+                    {
+                        return Convert.ToBoolean(key.GetValue("AutoDelete"));
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Add logging for this
+            }
+
+            return false;
         }
     }
 }

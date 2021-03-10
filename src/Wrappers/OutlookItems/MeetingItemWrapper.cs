@@ -85,6 +85,11 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
             }
         }
 
+        void IMoveable.Delete()
+        {
+            _innerObject.Delete();
+        }
+
         #region IDisposable Support
         private bool _disposedValue;
 

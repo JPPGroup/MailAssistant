@@ -223,12 +223,11 @@
             // closesnooze
             // 
             this.closesnooze.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closesnooze.Enabled = false;
             this.closesnooze.Location = new System.Drawing.Point(826, 392);
             this.closesnooze.Name = "closesnooze";
             this.closesnooze.Size = new System.Drawing.Size(117, 23);
             this.closesnooze.TabIndex = 9;
-            this.closesnooze.Text = "Snooze for 30 Days";
+            this.closesnooze.Text = "Delete for 30 Days";
             this.closesnooze.UseVisualStyleBackColor = true;
             this.closesnooze.Click += new System.EventHandler(this.closesnooze_Click);
             // 

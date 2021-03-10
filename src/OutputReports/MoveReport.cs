@@ -34,8 +34,10 @@ namespace Jpp.AddIn.MailAssistant.OutputReports
             if (OverallStatus != RagStatus.Green && !UserSettings.IsDialogSnoozed())
             {
                 //TODO : Review dialog...
-                using var frmResult = new MoveReportForm(this);
-                frmResult.ShowDialog();
+                /*using var frmResult = new MoveReportForm(this);
+                frmResult.ShowDialog();*/
+                /*MoveConfirm moveConfirm = new MoveConfirm();
+                moveConfirm.ShowDialog();*/
             }
         }
 
