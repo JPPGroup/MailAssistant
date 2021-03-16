@@ -60,7 +60,7 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                         frm.lblProgress.Text = $@"{frm.progressBar.Value} of {frm.progressBar.Maximum}";
                     });
 
-                    outcome = await MoveSelectionIntoFolderAsync(selection, progress);
+                    outcome = await MoveSelectionIntoFolderAsync(selection, progress, frm);
                 }
                 catch (Exception e)
                 {
@@ -134,19 +134,22 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
             return folder;
         }
 
-        private Task<MoveReport> MoveSelectionIntoFolderAsync(SelectionWrapper selection, IProgress<int> progress)
+        private Task<MoveReport> MoveSelectionIntoFolderAsync(SelectionWrapper selection, IProgress<int> progress, Form progressWindow)
         {
             return Task.Run(() =>
             {
                 var outcome = new MoveReport(this, selection);
-                bool? autoDelete =  null;
+                bool? autoDelete = null;
                 if (UserSettings.IsDialogSnoozed())
                 {
                     autoDelete = UserSettings.IsAutoDelete();
                 }
+
                 bool? oneDelete = null;
 
-                for (var i = 1; i <= selection.Count; i++) // Fine to move forward through selection, as collection doesn't change on move of item.
+                for (var i = 1;
+                    i <= selection.Count;
+                    i++) // Fine to move forward through selection, as collection doesn't change on move of item.
                 {
                     progress.Report(i);
 
@@ -165,17 +168,22 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                                     if (oneDelete == null && !autoDelete.HasValue)
                                     {
                                         MoveConfirm moveConfirm = new MoveConfirm();
-                                        if (moveConfirm.ShowDialog() == DialogResult.Yes)
+
+                                        progressWindow.Invoke((MethodInvoker) (() =>
                                         {
-                                            oneDelete = true;
-                                        }
-                                        else
-                                        {
-                                            oneDelete = false;
-                                        }
+                                            if (moveConfirm.ShowDialog(progressWindow) == DialogResult.Yes)
+                                            {
+                                                oneDelete = true;
+                                            }
+                                            else
+                                            {
+                                                oneDelete = false;
+                                            }
+                                        }));
                                     }
-                                    
-                                    if ((autoDelete.HasValue && autoDelete.Value) || (oneDelete.HasValue && oneDelete.Value))
+
+                                    if ((autoDelete.HasValue && autoDelete.Value) ||
+                                        (oneDelete.HasValue && oneDelete.Value))
                                     {
                                         moveableItem.Delete();
                                     }
@@ -186,8 +194,11 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                                         itemProps.Status = ItemStatus.DuplicateDeleted;
                                     }*/
                                 }
-                                
-                                else itemProps.Status = moveableItem.Move(_innerObject) ? ItemStatus.Moved : ItemStatus.Failed;
+
+                                else
+                                    itemProps.Status = moveableItem.Move(_innerObject)
+                                        ? ItemStatus.Moved
+                                        : ItemStatus.Failed;
                             }
                             else
                             {

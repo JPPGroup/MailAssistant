@@ -63,8 +63,8 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(378, 31);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Identical items have already been found in the destination. What should be done w" +
-    "ith the duplicats found?";
+            this.label1.Text = "One or more of these items are already in the destination. What should be done w" +
+    "ith the selected items?";
             // 
             // Remember
             // 
@@ -83,7 +83,7 @@ namespace Jpp.AddIn.MailAssistant.Forms
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.IgnoreButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MoveConfirm";
