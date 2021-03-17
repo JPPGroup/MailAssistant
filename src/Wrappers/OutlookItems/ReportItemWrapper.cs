@@ -22,6 +22,8 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                 return $"[Subject] = '{subject}'";
             }
         }
+
+
         public string Description => $"{_innerObject.CreationTime} | {_innerObject.Subject}";
         public string Folder => ((Outlook.Folder)_innerObject.Parent).Name;
         public int Size => _innerObject.Size;
@@ -82,6 +84,11 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                 if (moved != null) Marshal.ReleaseComObject(moved);
                 if (parent != null) Marshal.ReleaseComObject(parent);
             }
+        }
+
+        void IMoveable.Delete()
+        {
+            _innerObject.Delete();
         }
 
         #region IDisposable Support

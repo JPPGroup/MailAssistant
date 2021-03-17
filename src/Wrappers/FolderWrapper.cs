@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace Jpp.AddIn.MailAssistant.Wrappers
@@ -59,7 +60,7 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
                         frm.lblProgress.Text = $@"{frm.progressBar.Value} of {frm.progressBar.Maximum}";
                     });
 
-                    outcome = await MoveSelectionIntoFolderAsync(selection, progress);
+                    outcome = await MoveSelectionIntoFolderAsync(selection, progress, frm);
                 }
                 catch (Exception e)
                 {
@@ -133,13 +134,22 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
             return folder;
         }
 
-        private Task<MoveReport> MoveSelectionIntoFolderAsync(SelectionWrapper selection, IProgress<int> progress)
+        private Task<MoveReport> MoveSelectionIntoFolderAsync(SelectionWrapper selection, IProgress<int> progress, Form progressWindow)
         {
             return Task.Run(() =>
             {
                 var outcome = new MoveReport(this, selection);
+                bool? autoDelete = null;
+                if (UserSettings.IsDialogSnoozed())
+                {
+                    autoDelete = UserSettings.IsAutoDelete();
+                }
 
-                for (var i = 1; i <= selection.Count; i++) // Fine to move forward through selection, as collection doesn't change on move of item.
+                bool? oneDelete = null;
+
+                for (var i = 1;
+                    i <= selection.Count;
+                    i++) // Fine to move forward through selection, as collection doesn't change on move of item.
                 {
                     progress.Report(i);
 
@@ -151,8 +161,44 @@ namespace Jpp.AddIn.MailAssistant.Wrappers
 
                             if (outlookItem is IMoveable moveableItem)
                             {
-                                if (IsItemPresent(moveableItem)) itemProps.Status = ItemStatus.Duplicate;
-                                else itemProps.Status = moveableItem.Move(_innerObject) ? ItemStatus.Moved : ItemStatus.Failed;
+                                if (IsItemPresent(moveableItem))
+                                {
+                                    itemProps.Status = ItemStatus.Duplicate;
+
+                                    if (oneDelete == null && !autoDelete.HasValue)
+                                    {
+                                        MoveConfirm moveConfirm = new MoveConfirm();
+
+                                        progressWindow.Invoke((MethodInvoker) (() =>
+                                        {
+                                            if (moveConfirm.ShowDialog(progressWindow) == DialogResult.Yes)
+                                            {
+                                                oneDelete = true;
+                                            }
+                                            else
+                                            {
+                                                oneDelete = false;
+                                            }
+                                        }));
+                                    }
+
+                                    if ((autoDelete.HasValue && autoDelete.Value) ||
+                                        (oneDelete.HasValue && oneDelete.Value))
+                                    {
+                                        moveableItem.Delete();
+                                    }
+
+                                    /*if (UserSettings.IsDialogSnoozed())
+                                    {
+                                        moveableItem.Delete();
+                                        itemProps.Status = ItemStatus.DuplicateDeleted;
+                                    }*/
+                                }
+
+                                else
+                                    itemProps.Status = moveableItem.Move(_innerObject)
+                                        ? ItemStatus.Moved
+                                        : ItemStatus.Failed;
                             }
                             else
                             {

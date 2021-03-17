@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Outlook;
+using System;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace Jpp.AddIn.MailAssistant.Abstracts
@@ -7,5 +8,7 @@ namespace Jpp.AddIn.MailAssistant.Abstracts
     {
         bool Move(Outlook.Folder folder);
         string RestrictCriteria { get; }
+
+        void Delete();
     }
 }

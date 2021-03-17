@@ -1,4 +1,5 @@
-﻿using Microsoft.AppCenter.Analytics;
+﻿using System;
+using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
 using System.Linq;
 using Jpp.AddIn.MailAssistant.Forms;
@@ -30,11 +31,13 @@ namespace Jpp.AddIn.MailAssistant.OutputReports
         {
             LogAnalytics("Selection move complete");
 
-            if (OverallStatus != RagStatus.Green)
+            if (OverallStatus != RagStatus.Green && !UserSettings.IsDialogSnoozed())
             {
                 //TODO : Review dialog...
-                using var frmResult = new MoveReportForm(this);
-                frmResult.ShowDialog();
+                /*using var frmResult = new MoveReportForm(this);
+                frmResult.ShowDialog();*/
+                /*MoveConfirm moveConfirm = new MoveConfirm();
+                moveConfirm.ShowDialog();*/
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Jpp.AddIn.MailAssistant.OutputReports;
+﻿using System;
+using Jpp.AddIn.MailAssistant.OutputReports;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -107,6 +108,12 @@ namespace Jpp.AddIn.MailAssistant.Forms
 
         private void BtnClose_Click(object sender, System.EventArgs e)
         {
+            Close();
+        }
+
+        private void closesnooze_Click(object sender, System.EventArgs e)
+        {
+            
             Close();
         }
     }

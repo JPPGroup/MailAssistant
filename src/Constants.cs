@@ -12,5 +12,5 @@
     }
 
     public enum RagStatus {  Red, Amber, Green }
-    public enum ItemStatus { Duplicate, Moved, Failed, Skipped, NotSet }
+    public enum ItemStatus { Duplicate, Moved, Failed, Skipped, NotSet, DuplicateDeleted }
 }
