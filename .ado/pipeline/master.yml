@@ -39,7 +39,7 @@ jobs:
       solution: 'MailAssistant.sln'
       platform: 'Any CPU'
       configuration: 'Release'
-      msbuildArgs: '/target:publish /p:OutputPath="$(Build.ArtifactStagingDirectory)\Publish\\"'
+      msbuildArgs: '/target:publish /p:InstallURL=https://jppcdnstorage.blob.core.windows.net/mail-assistant-beta/ /p:OutputPath="$(Build.ArtifactStagingDirectory)\Publish\\"'
       clean: true         
       
   - publish: $(Build.ArtifactStagingDirectory)
